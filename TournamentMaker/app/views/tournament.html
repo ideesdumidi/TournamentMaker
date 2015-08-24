@@ -1,0 +1,191 @@
+﻿<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron {{currentSport.key}}">
+    <div class="container">
+        <h1>Gérer un tournoi</h1>
+        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+        <p><a class="btn btn-primary btn-lg" role="button">Learn more »</a></p>
+    </div>
+</div>
+
+<div class="container">
+    <form class="form-horizontal" name="matchForm" role="form" novalidate ng-submit="save()">
+        <h2>Tournoi</h2>
+        <div class="form-group">
+            <label for="inputSport" class="col-sm-4 col-md-3 control-label">Sport</label>
+            <div class="col-sm-4 col-md-3">
+                <select ng-model="model.sportKey" id="inputSport" class="form-control" ng-options="sport.key as sport.name for sport in sports">
+                    <option value="">Selectionner</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputNom" class="col-sm-4 col-md-3 control-label">Nom</label>
+            <div class="col-sm-4 col-md-3">
+                <input ng-model="model.name" class="form-control" id="inputNom" placeholder="Nom du tournoi" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputSystem" class="col-sm-4 col-md-3 control-label">Système de tournoi</label>
+            <div class="col-sm-4 col-md-3">
+                <select ng-model="model.type" id="inputSystem" class="form-control" ng-options="system as system.name for system in systems">
+                    <option value="">Selectionner</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputDate" class="col-sm-4 col-md-3 control-label">Date</label>
+            <div class="col-sm-4 col-md-3">
+                <p class="input-group">
+                    <input type="text" name="date" ng-model="model.date" ng-required="true" id="inputDate" class="form-control" show-button-bar="false" starting-day="1" show-weeks='false' datepicker-popup="shortDate" is-open="opened" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="openDatepicker($event)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 col-md-3 control-label">Heure</label>
+            <div data-timepicker ng-model="model.date" hour-step="1" minute-step="15" show-meridian="false" readonly-input="true"></div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9 col-md-offset-2 col-md-10">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="model.ranked"> Tournoi classé
+                    </label>
+                    <p class="help-block">Un tournoi classé ne peut pas être privé.</p>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9 col-md-offset-2 col-md-10">
+                <div class="checkbox">
+                    <label ng-class="{disabled:model.ranked}">
+                        <input type="checkbox" ng-model="model.private" ng-disabled="model.ranked"> Tournoi privé
+                    </label>
+                    <p class="help-block">En cas de tournoi privé, au moins un joueur par équipe doit être renseigné.</p>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9 col-md-offset-2 col-md-10">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="model.randomize"> Équipes aléatoires
+                    </label>
+                    <p class="help-block">Les équipes sont redistribuées lorsque le tournoi est démarré.</p>
+                </div>
+            </div>
+        </div>
+
+        <h2 ng-if="system">Options du système de tournoi</h2>
+        <div ng-repeat="option in system.options" ng-switch="option.type">
+            <div class="form-group" ng-switch-when="boolean">
+                <div class="col-sm-offset-3 col-sm-9 col-md-offset-2 col-md-10">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="model[option.key]"> <span ng-bind="option.label"></span>
+                        </label>
+                        <p class="help-block" ng-if="option.description" ng-bind="option.description"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" ng-switch-when="radio">
+                <label class="col-sm-4 col-md-3 control-label" ng-bind="option.label"></label>
+                <div class="radio-inline" ng-repeat="(key, value) in option.values">
+                    <label>
+                        <input ng-model="model[option.key]" type="radio" name="{{option.key}}" id="{{option.key}}{{key}}" value="{{key}}"> <span ng-bind="value"></span>
+                    </label>
+                </div>
+                <p class="help-block" ng-if="option.description" ng-bind="option.description"></p>
+            </div>
+            <div class="form-group" ng-switch-when="minMaxTeams" ng-if="currentSport.minTeams!=currentSport.maxTeams">
+                <label class="col-sm-4 col-md-3 control-label" ng-bind="option.label"></label>
+                <div class="radio-inline" ng-if="!currentSport"><label>Veuillez selectionner le sport</label></div>
+                <div class="radio-inline" ng-if="currentSport" ng-repeat="value in createLoop(currentSport.minTeams,currentSport.maxTeams) track by $index">
+                    <label>
+                        <input ng-model="model[option.key]" type="radio" name="{{option.key}}" id="{{option.key}}{{key}}" value="{{value}}"> <span ng-bind="value"></span>
+                    </label>
+                </div>
+                <p class="help-block" ng-if="option.description" ng-bind="option.description"></p>
+            </div>
+        </div>
+
+        <script type="text/ng-template" id="customTemplate.html">
+                <a>
+                    <img ng-src="{{match.model.picture}}" height="24">
+                    <span bind-html-unsafe="match.label | typeaheadHighlight:query"></span>
+                </a>
+        </script>
+
+    <h2>Équipes</h2>
+        <p ng-if="!currentSport">Veuillez selectionner un sport</p>
+        <div class="row" ng-if="currentSport">
+            <div class=" col-sm-6 col-md-4 col-lg-3" ng-repeat="equipe in model.teams">
+                <div class="panel panel-default" style="position: relative">
+                    <span style="position: absolute; right:-11px;top:-6px" ng-if="$index>2"><a class="btn btn-link" ng-click="removeTeam($index)"><span class="glyphicon glyphicon-remove text-danger"></span> </a></span>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="input_{{$id}}" class="col-sm-4 col-md-3 control-label">Nom</label>
+                                <div class="col-sm-8 col-md-9">
+                                    <input id="input_{{$id}}" type="text" ng-model="equipe.name" class="form-control" placeholder="Nom de l'équipe" />
+                                </div>
+                            </div>
+
+                            <div class="form-group" ng-repeat="(key,joueur) in equipe.players track by key" ng-class="{'no-margin-bottom':$last}">
+                                <label for="input_{{$id}}" class="col-sm-4 col-md-3 control-label text-nowrap">Joueur {{$index+1}}</label>
+                                <div class="col-sm-8 col-md-9" ng-form="playerForm">
+                                    <div class="input-group col-xs-12">
+                                        <div class="input-group-addon" style="width: 40px;text-align: center;padding:0">
+                                            <span class="glyphicon glyphicon-user" ng-show="!joueur.picture"></span>
+                                            <div style="margin:1px 6px; width: 30px;height:30px;overflow: hidden" class="img-circle" ng-show="joueur.picture">
+                                                <img ng-src="{{joueur.picture}}" style="margin: -10px -16px" height="42" />
+                                            </div>
+                                        </div>
+                                        <input id="input_{{$id}}" name="player_{{$id}}" ng-class="{'ng-invalid':playerForm.playerHidden.$invalid}" type="text" class="form-control" ng-model="equipe.players[key]" placeholder="Joueur {{$index+1}}" typeahead-append-to-body="true" typeahead-template-url="customTemplate.html" data-typeahead-editable="false" data-typeahead="player as player.fullName for player in filteredPlayers | filter:{fullName:$viewValue}" />
+                                    </div>
+                                    <input type="text" ng-show="{{false}}" id="$id" name="playerHidden" ng-required="$index==0 && model.private" ng-model="equipe.players[key].fullName" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="panel panel-primary" ng-click="addTeam()">
+                    <div class="panel-body">
+                        <a class="btn btn-link btn-block btn-lg">
+                            <span class="glyphicon glyphicon-plus"></span> Ajouter une équipe
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h2>Calendrier</h2>
+        <div ng-repeat="qualification in model.qualifications">
+            <h4 ng-bind="qualification.name"></h4>
+            <div class="row text-center">
+                <div ng-repeat ="match in qualification.matchs" class="qualification col-sm-2">
+                    <table class="table table-bordered">
+                        <tr class="active" ng-repeat="scores in match.results">
+                            <td>{{(match.teams[$index]?match.teams[$index].name:"&nbsp;")}}</td>
+                            <td ng-repeat="score in scores" style="width:25px" ng-bind="score.result"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <a ng-show="model.id && model.state == 0" class="clearfix btn btn-default" ng-disabled="matchForm.$invalid" ng-click="randomize()"><span class="glyphicon glyphicon-random"></span> Redistribuer les joueurs</a>
+        <div class="pull-right">
+            <button ng-hide="model.id" type="submit" class="btn btn-primary" ng-disabled="matchForm.$invalid"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Créer</button>
+            <button ng-show="model.id && model.state == 0" type="submit" class="btn btn-primary" ng-disabled="matchForm.$invalid"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Mettre à jour</button>
+            <button ng-show="model.id && model.state == 0" type="button" class="btn btn-success" ng-disabled="matchForm.$invalid" ng-click="start()"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Démarrer</button>
+        </div>
+            
+    </form>
+</div>

@@ -1,0 +1,42 @@
+﻿<div class="list-group" ng-repeat="match in matches" ng-if="match && match.id">
+    <div class="list-group-item">
+        <h4 class="list-group-item-heading">
+            <img height="20" ng-src="{{'content/img/'+getSport(match.sportKey).key+'-mini.png'}}" />
+            <span ng-bind="match.name||'Match de '+getSport(match.sportKey).name" style="vertical-align: middle;"></span>
+            <span class="pull-right" style="height:12px">
+                <span class="glyphicon glyphicon-random" ng-show="match.randomize" data-tooltip="Équipes aléatoires"></span>
+                <span class="glyphicon glyphicon-eye-close" ng-show="match.private" data-tooltip="Privé"></span>
+                <span class="glyphicon glyphicon-stats" ng-show="match.ranked" data-tooltip="Classé"></span>
+                <button class="btn btn-link btn-xs" ng-if="match.state < 2" ng-click="remove(match)" data-tooltip="Supprimer"><span class="glyphicon glyphicon-trash text-danger"></span></button>
+                <button class="btn btn-link btn-xs" ng-if="match.state == 0" ng-click="leave(match)" data-tooltip="Quitter"><span class="glyphicon glyphicon-log-out text-warning"></span></button>
+                <a class="btn btn-link btn-xs" ng-href="#/match/{{match.id}}" ng-if="match.state < 2" data-tooltip="Éditer"><span class="glyphicon glyphicon-pencil"></span></a>
+                <button class="btn btn-link text-success btn-xs" ng-click="close(match)" ng-if="match.state < 2" data-tooltip="Clore"><span class="glyphicon glyphicon-tower"></span></button>
+            </span>
+            <br/>
+            <small ng-if="match.state == 0">
+                <span>Prévu le:</span>
+                <span style="vertical-align:middle;" ng-bind="match.date|date:'longDate'"></span> à
+                <span style="vertical-align:middle;" ng-bind="match.date|date:'shortTime'"></span>
+            </small>
+            <small ng-if="match.state == 1">
+                <span>En cours</span>
+            </small>
+            <small ng-if="match.state == 2 || match.state == 3">
+                <span>Clos le:</span>
+                <span style="vertical-align:middle;" ng-bind="match.closeDate|date:'longDate'"></span> à
+                <span style="vertical-align:middle;" ng-bind="match.closeDate|date:'shortTime'"></span>
+            </small>
+        </h4>
+        <div class="list-group-item-text">
+            <div ng-repeat="team in match.teams">
+                <div ng-repeat="user in getPlayers(match, team) track by $index" class="pull-left" style="position:relative">
+                    <img ng-if="user && match.winnerId == team.id" src="content/img/cup.png" style="position:absolute; left:22px; top:30px" width="16" />
+                    <img ng-show="user" data-err-src="content/img/avatar.png" style="margin: 0 2px 2px 0;" ng-src="{{user.picture}}" width="32" tooltip="{{user.firstname+' '+user.lastname}}" />
+                    <span ng-if="match.state == 0" class="btn btn-link" ng-click="join(match, team.id)" style="border: 1px dashed; height: 43px; margin: 0 2px 2px 0; padding: 10px 0; width: 32px;" ng-show="!user" data-tooltip="Rejoindre {{team.name}}"><span class="glyphicon glyphicon-plus"></span></span>
+                </div>
+                <div class="pull-left text-center" ng-show="!$last && getSport(match.sportKey).maxPlayers > 1" style="height: 43px; margin: 0 2px 2px 0; padding: 10px 0; width: 32px;"><span>VS</span></div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>

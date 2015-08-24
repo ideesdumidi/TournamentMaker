@@ -1,0 +1,32 @@
+﻿<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron {{currentSport.key}}">
+    <div class="container">
+        <h1>Classement <span ng-bind="currentSport.name||'général'"></span></h1>
+        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+        <p><a class="btn btn-primary btn-lg" role="button">Learn more »</a></p>
+    </div>
+</div>
+
+<!-- Example row of columns -->
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Image</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Niveau</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="rank in ranks" ng-class="{bold:rank.player.matricule==identity.matricule}">
+                <td><span ng-bind="$index+1"></span></td>
+                <td><img data-err-src="content/img/avatar.png" ng-src="{{rank.player.picture}}" width="32" tooltip="{{rank.player.firstname+' '+rank.player.lastname}}" /></td>
+                <td><span ng-bind="rank.player.firstname"></span></td>
+                <td><span ng-bind="rank.player.lastname"></span></td>
+                <td><span ng-bind="rank.level"></span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

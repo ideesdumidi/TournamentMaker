@@ -1,0 +1,134 @@
+﻿body {
+    font-family: RobotoDraft, Roboto, 'Helvetica Neue', sans-serif;
+    background-color: #e9eaed;
+}
+
+.navbar-nav.navbar-center{
+    position: absolute;
+    left: 50%;
+    margin-left: -196px;
+    text-transform: uppercase;
+    font-size: 13px;
+    text-shadow: 0 0px 2px rgba(0,0,0,.4),0 0 3px rgba(0,0,0,.5);
+}
+.navbar-nav.navbar-right{
+    text-shadow: 0 0px 2px rgba(0,0,0,.4),0 0 3px rgba(0,0,0,.5);
+}
+
+.navbar-brand{
+        text-shadow: 0 0px 2px rgba(0,0,0,.4),0 0 3px rgba(0,0,0,.5);
+}
+
+.dropdown-header {
+    color: #ccc;
+}
+
+.dropdown-menu.pull-center {
+right: -30%;
+left: auto;
+}
+
+.navbar-transparent .dropdown-menu > li > a {
+color: #f3f3f3;
+text-shadow: 0 0px 2px rgba(0,0,0,.4),0 0 3px rgba(0,0,0,.5);
+}
+.navbar-transparent .dropdown-menu > li > a:hover {
+    color: #fff;
+    text-decoration: underline;
+    background-color: transparent;
+}
+
+.navbar-transparent .dropdown-menu {
+    text-transform: none;
+    background: none;
+    border: none;
+    box-shadow: none;
+}
+
+.navbar-transparent {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.navbar-transparent a{
+    color:#ddd;
+}
+.navbar-transparent .nav > li > a:hover,.navbar-transparent .nav > li > a:focus, .navbar-transparent .nav > li.active a{
+    color:#fff;
+    background-color: transparent;
+}
+
+.navbar-transparent .navbar-center.nav > li > a:hover,.navbar-transparent .navbar-center.nav > li > a:focus, .navbar-transparent .navbar-center.nav > li.active a{
+    color:#fff;
+    border-bottom-width: 2px;
+    border-bottom-style:solid;
+    border-bottom-color: #fff;
+}
+
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus {
+    background-color: transparent;
+}
+
+.jumbotron {
+    box-shadow: 0 1px 3px rgba(0,0,0,.5);
+    background-repeat: no-repeat;
+    background-position: top center;
+background-image: url("../img/jumbotron.jpg");
+/*background-image: -webkit-image-set(url("../img/jumbotron.jpg") 1x, url("../img/jumbotron.jpg") 2x);*/
+margin-bottom: 50px;
+background-size: cover;
+color: #eee;
+text-shadow: 0 1px 2px rgba(0,0,0,.5);
+background-color:#909598;
+  -webkit-transition: background-image 0.6s ease-in-out;
+  -moz-transition: background-image 0.6s ease-in-out;
+  -o-transition: background-image 0.6s ease-in-out;
+  transition: background-image 0.6s ease-in-out;
+}
+
+.jumbotron.babyfoot {
+background-image: url("../img/babyfoot.jpg");
+/*background-image: -webkit-image-set(url("../img/babyfoot.jpg") 1x, url("../img/babyfoot.jpg") 2x);*/
+}
+.jumbotron.fifa {
+background-image: url("../img/fifa.jpg");
+/*background-image: -webkit-image-set(url("../img/fifa.jpg") 1x, url("../img/fifa.jpg") 2x);*/
+}
+.jumbotron.seven-wonders {
+background-image: url("../img/seven-wonders.jpg");
+/*background-image: -webkit-image-set(url("../img/seven-wonders.jpg") 1x, url("../img/seven-wonders.jpg") 2x);*/
+}
+
+.navbar-transparent .nav .dropdown-menu > li > a, .navbar-transparent .navbar-center.nav .dropdown-menu > li > a {
+    color:#ddd;
+    border: none;
+    
+}
+
+.navbar-transparent .nav .dropdown-menu > li > a:hover,.navbar-transparent .nav .dropdown-menu > li > a:focus, .navbar-transparent .nav .dropdown-menu > li.active a{
+    color:#fff;
+    border: none;
+}
+
+.no-margin-bottom {
+    margin-bottom: 0;
+}
+
+.ng-dirty.ng-invalid {
+    border-color: red;
+}
+
+label.disabled {
+    color: #888;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.qualification {
+    display: inline-block;
+    float: none;
+}
